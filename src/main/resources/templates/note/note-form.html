@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Note Service</title>
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+<body>
+<header th:insert="fragments/header :: header"></header>
+
+<div align="center" class="container">
+  <h2 th:text="${note.title == null ? 'Create note': 'Edit note'}"></h2>
+  <form action="#" th:action="@{/note/save}" th:object="${note}" method="POST">
+    <input type="hidden" th:field="*{id}" placeholder="title"/>
+    <div>
+      <input type="text" th:field="*{title}"/>
+      <p th:errors = "*{title}" class="text-danger" th:if="${#fields.hasErrors('title')}"></p>
+    </div>
+
+    <div>
+      <textarea rows="20" name="content" th:field="*{content}" placeholder="content" class="form-control mb-4 col-4"></textarea>
+      <p th:errors = "*{content}" class="text-danger" th:if="${#fields.hasErrors('content')}"></p>
+    </div>
+
+    <th:block th:if="${note.privacy != null}">
+      <div class="form-check">
+        <input class="form-check-input" th:field="*{privacy}" th:type="radio" name="privacy" id="privacy1" th:value="PRIVATE" th:checked="${note.privacy == null}">
+        <label class="form-check-label" for="privacy1">
+          Private
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" th:field="*{privacy}" th:type="radio" name="privacy" id="privacy2" th:value="PUBLIC">
+        <label class="form-check-label" for="privacy2">
+          Public
+        </label>
+      </div>
+    </th:block>
+
+    <th:block th:if="${note.privacy == null}">
+      <div class="form-check">
+        <input class="form-check-input" th:type="radio" name="privacy" id="privacy3" th:value="PRIVATE" checked>
+        <label class="form-check-label" for="privacy1">
+          Private
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" th:type="radio" name="privacy" id="privacy4" th:value="PUBLIC">
+        <label class="form-check-label" for="privacy2">
+          Public
+        </label>
+      </div>
+    </th:block>
+
+    <button type="submit" class="btn btn-info col-2">Save</button>
+  </form>
+  <a th:href="@{/note/list}">Back to Note List</a>
+</div>
+</body>
+</html>
+
