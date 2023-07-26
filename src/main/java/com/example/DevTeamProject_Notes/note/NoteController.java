@@ -1,6 +1,7 @@
 package com.example.DevTeamProject_Notes.note;
 
 import com.example.DevTeamProject_Notes.security.CustomUserDetails;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -89,14 +91,32 @@ public class NoteController {
 
     @GetMapping("/share/{id}")
     public String shareNote(@PathVariable(name = "id") UUID id, Model model, Principal principal) {
+        Optional<Principal> principalOptional = Optional.ofNullable(principal);
         Note note = noteService.getById(id);
         if (note == null) {
             return "redirect:/error/404";
-        } else if (note.getPrivacy().label.equals("Private") && !note.getAuthor().equals(principal.getName())) {
-            return "redirect:/error/404";
-        } else {
-            model.addAttribute("note", note);
-            return "note/note-info";
         }
+        model.addAttribute("note", note);
+        if (note.getPrivacy().label.equals("Private")) {
+            if (principalOptional.isPresent()) {
+                if (note.getAuthor().equals(principal.getName())) {
+                    return "note/note-info";
+                } else {
+                    return "redirect:/error/404";
+                }
+            } else {
+                return "redirect:/error/404";
+            }
+        }
+        return "note/note-info";
+    }
+
+    @PostMapping("/share/{id}")
+    public String getLink(@PathVariable("id") UUID id, Model model, HttpServletRequest request, Principal principal) {
+        Note note = noteService.getById(id);
+        model.addAttribute("note", note);
+        String fullUrl = request.getRequestURL().toString();
+        noteService.copyLink(fullUrl);
+        return "redirect:/note/list";
     }
 }

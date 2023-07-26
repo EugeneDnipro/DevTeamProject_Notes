@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,7 +53,7 @@
                             </svg>
                         </button>
                     </form>
-                    <form th:action="@{/note/share/{id}(id=${note.id})}">
+                    <form method="post" th:action="@{/note/share/{id}(id=${note.id})}">
                         <input type="hidden" name="id" th:value="${note.id}">
                         <button class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Копіювати посилання">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-forward-fill" viewBox="0 0 16 16">

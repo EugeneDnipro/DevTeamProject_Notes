@@ -2,6 +2,7 @@ package com.example.DevTeamProject_Notes.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,10 +38,10 @@ public class SecurityConfig {
         http.csrf(Customizer.withDefaults())
                 .authorizeHttpRequests((request) ->
                         request.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/note/share/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/note/share/**").permitAll()
                                 .requestMatchers("/note/**").hasRole("USER")
                                 .requestMatchers("/note/list/page/**").hasRole("USER")
-                                .requestMatchers("/error/**").hasRole("USER")
+                                .requestMatchers(HttpMethod.GET,"/error/**").permitAll()
                 )
                 .csrf(CsrfConfigurer::disable)
                 .formLogin(
