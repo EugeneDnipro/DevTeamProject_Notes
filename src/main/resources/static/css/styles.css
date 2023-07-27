@@ -1,4 +1,14 @@
-body{margin-top:20px;}
+body{
+    background-color: #e7e7e7;
+}
+
+header{
+    background-color: #212529!important;
+}
+.container {
+    width: 1140px;
+    margin: auto;
+}
 
 .card-big-shadow {
     max-width: 370px;
