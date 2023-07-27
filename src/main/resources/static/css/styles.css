@@ -25,6 +25,11 @@ header{
     margin-bottom: 100px;
 }
 
+.register .content-card{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
 .container {
     width: 1140px;
     margin: auto;
