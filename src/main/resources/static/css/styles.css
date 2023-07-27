@@ -25,6 +25,16 @@ header{
     margin-bottom: 100px;
 }
 
+.note-form .content-card{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.note-form .card-form{
+    width: 600px;
+    height: 640px;
+}
+
 .register .content-card{
     margin-top: 100px;
     margin-bottom: 100px;
