@@ -72,10 +72,6 @@ class NoteServiceTest {
     }
 
     @Test
-    void testSave() {
-    }
-
-    @Test
     void getById() {
         UUID id = UUID.randomUUID();
         when(noteRepository.findById(id))
