@@ -13,37 +13,43 @@
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"></header>
-<br /><br /><br />
-<div class="container">
-    <div class="row col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="text-center">Registration</h2>
-            </div>
-            <div th:if="${param.success}">
-                <div class="alert alert-info">
-                    You have successfully registered our app!
+
+<div class="container bootstrap snippets bootdeys register">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 content-card">
+            <div class="card-big-shadow">
+                <div class="card card-form card-just-text" data-background="color" data-color="purple">
+                    <div th:if="${param.success}">
+                        <div class="alert alert-info">
+                            You have successfully registered in our app!
+                        </div>
+                    </div>
+                    <div class="form-wrap">
+                        <div>
+                            <h2 class="text-center">Registration</h2>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Login</label>
+                                    <input class="form-control" id="login" name="login" placeholder="Enter your login" th:field="*{login}" type="login"/>
+                                    <p th:errors = "*{login}" class="text-danger" th:if="${#fields.hasErrors('login')}"></p>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input class="form-control" id="password" name="password" placeholder="Enter your password" th:field="*{password}" type="password"/>
+                                    <p th:errors = "*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
+                                </div>
+
+                                <div class="form-group mb-3 login-btn">
+                                    <button class="btn btn-primary" type="submit">Register</button>
+                                </div>
+                                <span>Already registered? <a th:href="@{/login}"> Login here</a></span>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
-                    <div class="form-group mb-3">
-                        <label class="form-label">Login</label>
-                        <input class="form-control" id="login" name="login" placeholder="Enter your login" th:field="*{login}" type="login"/>
-                        <p th:errors = "*{login}" class="text-danger" th:if="${#fields.hasErrors('login')}"></p>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label">Password</label>
-                        <input class="form-control" id="password" name="password" placeholder="Enter your password" th:field="*{password}" type="password"/>
-                        <p th:errors = "*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
-                    </div>
-
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Register</button>
-                        <span>Already registered? <a th:href="@{/login}">Login here</a></span>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
