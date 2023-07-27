@@ -32,7 +32,7 @@
                             <div class="ribbon-2">
                                 <h6 th:text="${note.privacy.label}" class="visibility"></h6>
                             </div>
-                            <h4 th:text="${note.title}" class="title"><a href="#"></a></h4>
+                            <a th:href="@{/note/share/{id}(id=${note.id})}"><h4 th:text="${note.title}" class="title"></h4></a>
                             <p th:text="${note.content}" class="description"></p>
                             <div class="d-flex justify-content-center gap-3 mb-3">
                                 <form action="/note/delete" method="post" class="mr-1">
