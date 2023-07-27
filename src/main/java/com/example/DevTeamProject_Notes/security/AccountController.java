@@ -33,12 +33,15 @@ public class AccountController {
                                BindingResult result,
                                Model model) {
 
-        if (result.hasErrors()) {
-            model.addAttribute("user", user);
+        if (!result.hasErrors()) {
+            String duplicateResult = userService.checkDuplicateUser(user, result, this);
+            if (duplicateResult != null) return duplicateResult;
+        } else {
             return "auth/register";
         }
-
-        userService.save(user);
+        
+        model.addAttribute("user", user);
         return "redirect:/login";
     }
+
 }
