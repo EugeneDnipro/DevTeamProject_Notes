@@ -43,6 +43,7 @@ public class SecurityConfig {
                                 .requestMatchers("/note/list/page/**").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET,"/error/**").permitAll()
                                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                                .requestMatchers("/").hasRole("USER")
                 )
                 .csrf(CsrfConfigurer::disable)
                 .formLogin(
