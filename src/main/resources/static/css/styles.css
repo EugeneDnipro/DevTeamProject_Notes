@@ -25,6 +25,21 @@ header{
     margin-bottom: 100px;
 }
 
+.note-form .content-card{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.note-form .card-form{
+    width: 600px;
+    height: 640px;
+}
+
+.register .content-card{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
 .container {
     width: 1140px;
     margin: auto;
@@ -285,4 +300,36 @@ footer{
   opacity:0.3;
   font-size:13px;
   margin-bottom:0;
+}
+
+.four1{
+animation: swing ease-in-out 1.5s infinite alternate;
+    display: inline-block;
+}
+.zero{
+  animation: swing2 ease-in-out 1.5s infinite alternate;
+  display: inline-block;
+}
+.four2{
+animation: swing3 ease-in-out 1.5s infinite alternate;
+    display: inline-block;
+}
+
+@keyframes swing {
+    0% { transform: rotate(3deg); }
+    100% { transform: rotate(-3deg); }
+}
+
+@keyframes swing2 {
+    0% { transform: rotate(-3deg); }
+    100% { transform: rotate(3deg); }
+}
+@keyframes swing3 {
+    0% { transform: rotate(-3deg); }
+    100% { transform: rotate(8deg); }
+}
+
+.not-found{
+    text-align: center;
+    margin: 150px;
 }
