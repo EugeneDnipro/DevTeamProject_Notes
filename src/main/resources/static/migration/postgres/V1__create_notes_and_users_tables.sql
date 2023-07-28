@@ -1,32 +1,27 @@
 CREATE TABLE users (
-    id BIGSERIAL PRIMARY KEY
-)
+  id BIGSERIAL PRIMARY KEY,
+  login VARCHAR(50),
+  password VARCHAR(100),
+  role VARCHAR(255),
+  CONSTRAINT UK_login_unique UNIQUE (login)
+);
 
 CREATE TABLE notes (
-    id UUID PRIMARY KEY,
-    title VARCHAR,
-    content VARCHAR,
-    privacy VARCHAR,
-    user_id BIGINT,
-    FOREIGN KEY(user_id) REFERENCES users(id)
-)
-
-CREATE TABLE request (
-    id BIGSERIAL PRIMARY KEY,
-    creation_date DATE,
-    description VARCHAR,
-    repairer VARCHAR,
-    cost BIGINT,
-    completion_status VARCHAR,
-    payment_status VARCHAR
+  id UUID DEFAULT uuid_generate_v4() NOT NULL,
+  content VARCHAR(10000) DEFAULT NULL,
+  privacy VARCHAR(255) DEFAULT NULL,
+  title VARCHAR(100) DEFAULT NULL,
+  user_id BIGINT DEFAULT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FKechaouoa6kus6k1dpix1u91c FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-CREATE TABLE feedback (
-    id BIGSERIAL PRIMARY KEY,
-    feedback_date DATE,
-    rating SMALLINT,
-    description VARCHAR,
-    request_id BIGINT,
-    client_id VARCHAR,
-    repairer_id VARCHAR
-);
+CREATE INDEX idx_user_id ON notes (user_id);
+
+
+
+
+
+
+
+
