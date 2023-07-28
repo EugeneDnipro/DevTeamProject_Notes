@@ -1,32 +1,18 @@
 CREATE TABLE users (
-    id IDENTITY PRIMARY KEY
+  id bigint NOT NULL AUTO_INCREMENT,
+  login varchar(50) DEFAULT NULL,
+  password varchar(100) DEFAULT NULL,
+  role varchar(255) DEFAULT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY UK_sx468g52bpetvlad2j9y0lptc (login)
 )
-
 CREATE TABLE notes (
-    id UUID PRIMARY KEY,
-    title VARCHAR,
-    content VARCHAR,
-    privacy VARCHAR,
-    user_id BIGINT,
-    FOREIGN KEY(user_id) REFERENCES users(id)
+  id binary(16) NOT NULL,
+  content varchar(10000) DEFAULT NULL,
+  privacy varchar(255) DEFAULT NULL,
+  title varchar(100) DEFAULT NULL,
+  user_id bigint DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY FKechaouoa6kus6k1dpix1u91c (user_id),
+  CONSTRAINT FKechaouoa6kus6k1dpix1u91c FOREIGN KEY (user_id) REFERENCES users (id)
 )
-
-CREATE TABLE request (
-    id IDENTITY PRIMARY KEY,
-    creation_date DATE,
-    description VARCHAR,
-    repairer VARCHAR,
-    cost BIGINT,
-    completion_status VARCHAR,
-    payment_status VARCHAR
-);
-
-CREATE TABLE feedback (
-    id IDENTITY PRIMARY KEY,
-    feedback_date DATE,
-    rating SMALLINT,
-    description VARCHAR,
-    request_id BIGINT,
-    client_id VARCHAR,
-    repairer_id VARCHAR
-);
