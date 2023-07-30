@@ -5,6 +5,7 @@ CREATE TABLE users (
   role VARCHAR(255),
   CONSTRAINT UK_login_unique UNIQUE (login)
 );
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE notes (
   id UUID DEFAULT uuid_generate_v4() NOT NULL,
