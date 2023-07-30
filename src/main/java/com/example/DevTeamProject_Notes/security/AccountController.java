@@ -3,6 +3,7 @@ package com.example.DevTeamProject_Notes.security;
 import com.example.DevTeamProject_Notes.user.User;
 import com.example.DevTeamProject_Notes.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class AccountController {
     private final UserService userService;
+
+    @GetMapping("")
+    public String beginning(@AuthenticationPrincipal CustomUserDetails loggedUser) {
+        return "redirect:/note/list";
+    }
 
     @GetMapping("/login")
     public String login() {
