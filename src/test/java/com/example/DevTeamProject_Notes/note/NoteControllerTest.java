@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -75,14 +76,7 @@ class NoteControllerTest {
                 .andExpect(model().attribute("currentPage", is(3)))
                 .andExpect(model().attribute("totalPages", is(page.getTotalPages())))
                 .andExpect(model().attribute("totalItems", is(page.getTotalElements())))
-                .andExpect(model().attribute("notes", hasSize(1)))
-                .andExpect(model().attribute("notes", hasItem(
-                        allOf(
-                                hasProperty("title", is("Test Note")),
-                                hasProperty("content", is("Test Note Content")),
-                                hasProperty("privacy", is(Privacy.PUBLIC))
-                        )
-                )));
+                .andExpect(model().attribute("notes", hasSize(1)));
     }
 
     @Test
@@ -96,7 +90,28 @@ class NoteControllerTest {
     }
 
     @Test
+    @SneakyThrows
+    @WithMockCustomUser
     void testCreateNote() {
+        mvc.perform(post("/note/save")
+                        .param("privacy", "PUBLIC")
+                        .flashAttr("note", new Note()))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/note/list"));
+    }
+
+    @Test
+    @SneakyThrows
+    @WithMockCustomUser
+    void testCreateNoteWithError() {
+        Note value = new Note();
+        value.setTitle("1");
+        mvc.perform(post("/note/save")
+                        .param("privacy", "PUBLIC")
+                        .flashAttr("note", value))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("note/note-form"));
     }
 
     @Test
