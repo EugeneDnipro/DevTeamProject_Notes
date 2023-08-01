@@ -24,12 +24,12 @@ public class DataSourceConfigPostgres {
     @Bean
 
     public DataSource dataSourceProd() {
-        String jdbcUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;;
+        String jdbcUrl = "jdbc:postgresql://dpg-ci29ld3hp8u1a19cinfg-a.frankfurt-postgres.render.com:5432/online_store_db";
         DriverManagerDataSource dataSourceProd = new DriverManagerDataSource();
         dataSourceProd.setDriverClassName("org.postgresql.Driver");
         dataSourceProd.setUrl(jdbcUrl);
-        dataSourceProd.setUsername(dbUsername);
-        dataSourceProd.setPassword(dbPassword);
+        dataSourceProd.setUsername("solo_alex");
+        dataSourceProd.setPassword("RQjFXDk3TAz3nvRQu6Flqivf2YSCFPY9");
         return dataSourceProd;
     }
 
