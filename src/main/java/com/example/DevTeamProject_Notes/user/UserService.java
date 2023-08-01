@@ -15,9 +15,11 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void save(User user) {
-        if (userRepository.existsByLogin(user.getLogin())){
+        String loginInLowerCase = user.getLogin().toLowerCase();
+        if (userRepository.existsByLogin(loginInLowerCase)){
             throw new DuplicateKeyException("User with this login already exists");
         }
+        user.setLogin(loginInLowerCase);
         user.setRole(Role.ROLE_USER);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
