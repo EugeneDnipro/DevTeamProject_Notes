@@ -45,6 +45,10 @@ header{
     margin: auto;
 }
 
+.my-2{
+    min-height: 680px;
+}
+
 .card-big-shadow {
     max-width: 370px;
     position: relative;

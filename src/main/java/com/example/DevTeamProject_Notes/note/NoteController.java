@@ -113,9 +113,14 @@ public class NoteController {
 
     @PostMapping("/share/{id}")
     public String getLink(@PathVariable("id") UUID id, Model model, HttpServletRequest request, Principal principal) {
+        String fullUrl;
         Note note = noteService.getById(id);
         model.addAttribute("note", note);
-        String fullUrl = request.getRequestURL().toString();
+        if (request.isSecure()) {
+            fullUrl = request.getRequestURL().toString().replaceFirst("https:", "http:");
+        }else{
+            fullUrl = request.getRequestURL().toString();
+        }
         noteService.copyLink(fullUrl);
         return "redirect:/note/list";
     }

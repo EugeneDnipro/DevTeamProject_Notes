@@ -25,6 +25,7 @@ class UserServiceTest {
 
         user.setRole(Role.ROLE_USER);
         user.setPassword("qwerty");
+        user.setLogin("testuser");
         when(userRepository.save(user)).thenReturn(user);
         when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("hash");
         userService.save(user);
