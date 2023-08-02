@@ -41,7 +41,8 @@ public class AccountController {
 
         if (!result.hasErrors()) {
             String duplicateResult = userService.checkDuplicateUser(user, result, this);
-            if (duplicateResult != null) return duplicateResult;
+            String validation = userService.validateUsername(user, result, this);
+            if (duplicateResult != null || validation != null) return "auth/register";
         } else {
             return "auth/register";
         }
