@@ -1,4 +1,4 @@
-package com.example.DevTeamProject_Notes.datasourse.postgres;
+package com.example.DevTeamProject_Notes.datasourse.deploy;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,26 +8,21 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-@Profile("prod")
+
+@Profile("deploy")
 @Configuration
-public class DataSourceConfigPostgres {
-    @Value("${DB_HOST}")
+public class DataSourceConfigPostgresDeploy {
+    @Value("${spring.datasource.url}")
     private String dbHost;
-    @Value("${DB_PORT}")
-    private String dbPort;
-    @Value("${DB_NAME}")
-    private String dbName;
-    @Value("${DB_USERNAME}")
+    @Value("${spring.datasource.username}")
     private String dbUsername;
-    @Value("${DB_PASSWORD}")
+    @Value("${spring.datasource.password}")
     private String dbPassword;
     @Bean
 
     public DataSource dataSourceProd() {
-        String jdbcUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;;
         DriverManagerDataSource dataSourceProd = new DriverManagerDataSource();
-        dataSourceProd.setDriverClassName("org.postgresql.Driver");
-        dataSourceProd.setUrl(jdbcUrl);
+        dataSourceProd.setUrl(dbHost);
         dataSourceProd.setUsername(dbUsername);
         dataSourceProd.setPassword(dbPassword);
         return dataSourceProd;
