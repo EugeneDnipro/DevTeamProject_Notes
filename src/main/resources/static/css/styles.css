@@ -337,3 +337,23 @@ animation: swing3 ease-in-out 1.5s infinite alternate;
     text-align: center;
     margin: 150px;
 }
+
+.cms {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.cms .content img{
+    width: 250px;
+    margin-bottom: 50px;
+}
+
+.cms .category{
+    font-size: 20px;
+    color: #951c28;
+}
+
+.cms .title{
+    font-size: 35px;
+    color: black !important;
+}

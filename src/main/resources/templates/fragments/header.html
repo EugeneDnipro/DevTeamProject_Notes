@@ -14,10 +14,10 @@
             <a class="nav-link" href="/note/list">Home</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/note/list">About Us</span></a>
+            <a class="nav-link" href="/about">About Us</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/note/list">Contac Us</span></a>
+            <a class="nav-link" href="/contact-us">Contac Us</span></a>
           </li>
         </ul>
       </div>
@@ -29,28 +29,10 @@
       </div>
       <div class="collapse navbar-collapse justify-content-end" sec:authorize="isAuthenticated()">
         <ul class="navbar-nav">
+          <li class="nav-item"><a href="#" class="nav-link">Hello, <span sec:authentication="name"> </span></a></li>
           <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Logout</a></li>
         </ul>
       </div>
     </nav>
   </div>
-
- <!-- <nav class="py-2 bg-body-tertiary border-bottom">
-    <div class="container d-flex flex-wrap">
-      <ul class="nav me-auto">
-        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
-      </ul>
-      <div sec:authorize="isAnonymous()">
-        <ul class="nav">
-          <li class="nav-item"><a th:href="@{/login}" class="nav-link link-body-emphasis px-2">Login</a></li>
-          <li class="nav-item"><a th:href="@{/register}" class="nav-link link-body-emphasis px-2">Sign up</a></li>
-        </ul>
-      </div>
-      <div sec:authorize="isAuthenticated()">
-        <ul class="nav">
-          <li class="nav-item"><a th:href="@{/logout}" class="nav-link link-body-emphasis px-2">Logout</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>-->
 </div>

@@ -44,6 +44,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/error/**").permitAll()
                                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                                 .requestMatchers("/").hasRole("USER")
+                                .requestMatchers(HttpMethod.GET,"/about").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/contact-us").permitAll()
                 )
                 .csrf(CsrfConfigurer::disable)
                 .formLogin(
