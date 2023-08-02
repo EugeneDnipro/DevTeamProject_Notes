@@ -11,23 +11,17 @@ import javax.sql.DataSource;
 @Profile("prod")
 @Configuration
 public class DataSourceConfigPostgres {
-    @Value("${DB_HOST}")
+    @Value("${spring.datasource.url}")
     private String dbHost;
-    @Value("${DB_PORT}")
-    private String dbPort;
-    @Value("${DB_NAME}")
-    private String dbName;
-    @Value("${DB_USERNAME}")
+    @Value("${spring.datasource.username}")
     private String dbUsername;
-    @Value("${DB_PASSWORD}")
+    @Value("${spring.datasource.password}")
     private String dbPassword;
     @Bean
 
     public DataSource dataSourceProd() {
-        String jdbcUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;;
         DriverManagerDataSource dataSourceProd = new DriverManagerDataSource();
-        dataSourceProd.setDriverClassName("org.postgresql.Driver");
-        dataSourceProd.setUrl(jdbcUrl);
+        dataSourceProd.setUrl(dbHost);
         dataSourceProd.setUsername(dbUsername);
         dataSourceProd.setPassword(dbPassword);
         return dataSourceProd;
