@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class AccountController {
     private final UserService userService;
-    private final UserRepository userRepository;
     private final UserValidation userValidation;
 
 
@@ -51,7 +50,6 @@ public class AccountController {
             return "auth/register";
         }
         userService.save(user);
-        System.out.println("userRepository.findAll() = " + userRepository.findAll());
         model.addAttribute("user", user);
         return "redirect:/login";
     }
