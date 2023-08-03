@@ -1,7 +1,9 @@
 package com.example.DevTeamProject_Notes.security;
 
 import com.example.DevTeamProject_Notes.user.User;
+import com.example.DevTeamProject_Notes.user.UserRepository;
 import com.example.DevTeamProject_Notes.user.UserService;
+import com.example.DevTeamProject_Notes.user.UserValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class AccountController {
     private final UserService userService;
+    private final UserValidation userValidation;
+
 
     @GetMapping("")
     public String beginning(@AuthenticationPrincipal CustomUserDetails loggedUser) {
@@ -40,12 +44,12 @@ public class AccountController {
                                Model model) {
 
         if (!result.hasErrors()) {
-            String duplicateResult = userService.checkDuplicateUser(user, result, this);
-            if (duplicateResult != null) return duplicateResult;
+            if (userValidation.validate(user, result, this))
+                return "auth/register";
         } else {
             return "auth/register";
         }
-        
+        userService.save(user);
         model.addAttribute("user", user);
         return "redirect:/login";
     }
