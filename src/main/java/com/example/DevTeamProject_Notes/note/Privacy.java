@@ -6,7 +6,7 @@ public enum Privacy {
 
     public final String label;
 
-    private Privacy(String label) {
+    Privacy(String label) {
         this.label = label;
     }
 }
