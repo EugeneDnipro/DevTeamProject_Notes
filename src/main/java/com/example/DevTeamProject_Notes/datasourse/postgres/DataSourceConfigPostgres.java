@@ -24,7 +24,7 @@ public class DataSourceConfigPostgres {
     @Bean
 
     public DataSource dataSourceProd() {
-        String jdbcUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;;
+        String jdbcUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
         DriverManagerDataSource dataSourceProd = new DriverManagerDataSource();
         dataSourceProd.setDriverClassName("org.postgresql.Driver");
         dataSourceProd.setUrl(jdbcUrl);
