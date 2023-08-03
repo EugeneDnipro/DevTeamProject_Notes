@@ -40,7 +40,7 @@ public class AccountController {
                                Model model) {
 
         if (!result.hasErrors()) {
-            String duplicateResult = userService.checkDuplicateUser(user, result, this);
+            String duplicateResult = userService.checkDuplicateUser(user, result);
             if (duplicateResult != null) return duplicateResult;
         } else {
             return "auth/register";

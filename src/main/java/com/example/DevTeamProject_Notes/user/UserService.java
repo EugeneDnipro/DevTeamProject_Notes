@@ -25,7 +25,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public String checkDuplicateUser(User user, BindingResult result, AccountController accountController) {
+    public String checkDuplicateUser(User user, BindingResult result) {
         try {
             save(user);
         } catch (DuplicateKeyException ex) {
