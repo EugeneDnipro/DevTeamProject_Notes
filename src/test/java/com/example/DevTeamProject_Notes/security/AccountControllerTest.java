@@ -2,11 +2,10 @@ package com.example.DevTeamProject_Notes.security;
 
 import com.example.DevTeamProject_Notes.user.Role;
 import com.example.DevTeamProject_Notes.user.User;
-import com.example.DevTeamProject_Notes.user.UserService;
+import com.example.DevTeamProject_Notes.user.UserValidation;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,7 +29,7 @@ class AccountControllerTest {
     @Autowired
     private WebApplicationContext context;
     @MockBean
-    private UserService userService;
+    private UserValidation userValidation;
 
     @BeforeEach
     public void setup() {
@@ -72,12 +71,14 @@ class AccountControllerTest {
     @SneakyThrows
     @WithMockCustomUser
     void registration() {
-        when(userService.checkDuplicateUser(any(User.class), any(BindingResult.class)))
-                .thenReturn("auth/register");
-        mvc.perform(post("/register/save"))
+        User user = getUser();
+        when(userValidation.validate(any(User.class), any(BindingResult.class), any(AccountController.class)))
+                .thenReturn(true);
+        mvc.perform(post("/register/save")
+                        .flashAttr("user", user))
                 .andExpect(status().isOk())
                 .andExpect(view().name("auth/register"))
-                .andExpect(model().attribute("user", new User()));
+                .andExpect(model().attribute("user", user));
     }
 
     @Test
@@ -85,8 +86,8 @@ class AccountControllerTest {
     @WithMockCustomUser
     void registrationNotDuplicatedUser() {
         User user = getUser();
-        when(userService.checkDuplicateUser(any(User.class), any(BindingResult.class)))
-                .thenReturn(null);
+        when(userValidation.validate(any(User.class), any(BindingResult.class), any(AccountController.class)))
+                .thenReturn(false);
         mvc.perform(post("/register/save")
                         .flashAttr("user", user))
                 .andExpect(status().isFound())

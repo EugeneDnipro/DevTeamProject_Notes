@@ -10,8 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -38,19 +37,13 @@ class UserServiceTest {
     }
 
     @Test
-    void checkDuplicateUser() {
+    void isUserDuplicated() {
         User user = getUser();
+        when(userRepository.existsByLogin(user.getLogin().toLowerCase())).thenReturn(true);
 
-        DuplicateKeyException ex = new DuplicateKeyException("Користувач з таким логіном вже існує");
-        when(userRepository.save(user)).thenThrow(ex);
+        boolean checked = userService.isUserDuplicated(user);
 
-        String checked = userService.checkDuplicateUser(user, result);
-
-        assertEquals(checked, "auth/register");
-
-        String fieldName = "login";
-        String errorMessage = "Користувач з таким логіном вже існує";
-        verify(result, times(1)).addError(new FieldError("user", fieldName, errorMessage));
+        assertTrue(checked);
     }
 
     private static User getUser() {
