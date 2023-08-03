@@ -26,7 +26,7 @@ class CustomUserDetailsServiceTest {
         String userName = "User1";
         User user = new User();
         user.setLogin(userName);
-        when(userRepository.findByLogin(userName)).thenReturn(user);
+        when(userRepository.findByLogin(userName.toLowerCase())).thenReturn(user);
 
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
 
