@@ -12,5 +12,7 @@ public @interface WithMockCustomUser {
 
     long id() default 100L;
 
+    String login() default "testuser";
+
     Role role() default Role.ROLE_USER;
 }

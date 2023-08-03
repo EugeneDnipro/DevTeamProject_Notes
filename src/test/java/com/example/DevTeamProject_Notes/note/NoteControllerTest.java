@@ -1,6 +1,7 @@
 package com.example.DevTeamProject_Notes.note;
 
 import com.example.DevTeamProject_Notes.security.WithMockCustomUser;
+import com.example.DevTeamProject_Notes.user.Role;
 import com.example.DevTeamProject_Notes.user.User;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +15,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -115,19 +117,97 @@ class NoteControllerTest {
     }
 
     @Test
+    @SneakyThrows
+    @WithMockCustomUser
     void editNote() {
+        UUID randomUUID = UUID.randomUUID();
+        Note editNote = new Note();
+        when(noteService.getById(randomUUID))
+                .thenReturn(editNote);
+        editNote.setId(randomUUID);
+
+        mvc.perform(get("/note/edit?id=" + randomUUID))
+                .andExpect(status().isOk())
+                .andExpect(view().name("note/note-form"))
+                .andExpect(model().attribute("note", notNullValue()));
     }
 
     @Test
+    @SneakyThrows
+    @WithMockCustomUser
+    void editNoteWithNull() {
+        UUID randomUUID = UUID.randomUUID();
+        when(noteService.getById(randomUUID))
+                .thenReturn(null);
+
+        mvc.perform(get("/note/edit?id=" + randomUUID))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/error/404"))
+                .andExpect(model().attribute("note", nullValue()));
+    }
+
+    @Test
+    @SneakyThrows
+    @WithMockCustomUser
     void deleteNote() {
+        UUID randomUUID = UUID.randomUUID();
+        mvc.perform(post("/note/delete?id=" + randomUUID))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/note/list"));
+
+        verify(noteService, times(1)).deleteById(randomUUID);
     }
 
     @Test
-    void shareNote() {
+    @SneakyThrows
+    @WithMockCustomUser
+    void shareNoteNull() {
+
+        UUID randomUUID = UUID.randomUUID();
+        when(noteService.getById(randomUUID))
+                .thenReturn(null);
+
+        mvc.perform(get("/note/share/" + randomUUID))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("note", nullValue()))
+                .andExpect(view().name("redirect:/error/404"));
     }
 
     @Test
+    @SneakyThrows
+    @WithMockCustomUser
+    void shareNotePrincipal() {
+        UUID randomUUID = UUID.randomUUID();
+        Note note = getNote(100L);
+        note.setId(randomUUID);
+        User user = getUser();
+        note.setUser(user);
+
+        note.setPrivacy(Privacy.PRIVATE);
+        when(noteService.getById(randomUUID))
+                .thenReturn(note);
+
+        mvc.perform(get("/note/share/" + randomUUID))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("note", notNullValue()))
+                .andExpect(view().name("note/note-info"));
+    }
+
+    @Test
+    @SneakyThrows
+    @WithMockCustomUser
     void getLink() {
+        UUID randomUUID = UUID.randomUUID();
+        Note getNoteLink = getNote(100L);
+        getNoteLink.setId(randomUUID);
+        when(noteService.getById(randomUUID))
+                .thenReturn(getNoteLink);
+
+        mvc.perform(post("/note/share/" + randomUUID))
+                .andExpect(view().name("redirect:/note/list"));
+
+        verify(noteService, times(1)).getById(randomUUID);
+        verify(noteService, times(1)).copyLink("http://localhost/note/share/" + randomUUID);
     }
 
     private static Note getNote(long userId) {
@@ -139,5 +219,14 @@ class NoteControllerTest {
         user.setId(userId);
         note.setUser(user);
         return note;
+    }
+
+    private static User getUser() {
+        User user = new User();
+
+        user.setRole(Role.ROLE_USER);
+        user.setPassword("qwerty");
+        user.setLogin("testuser");
+        return user;
     }
 }

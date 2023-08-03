@@ -14,6 +14,7 @@ public class WithMockCustomUserSecurityContextFactory implements WithSecurityCon
 
         User user = new User();
         user.setId(customUser.id());
+        user.setLogin(customUser.login());
         user.setPassword("qwerty");
         user.setRole(customUser.role());
 
