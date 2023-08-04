@@ -1,9 +1,7 @@
 package com.example.DevTeamProject_Notes.security;
 
 import com.example.DevTeamProject_Notes.user.User;
-import com.example.DevTeamProject_Notes.user.UserRepository;
 import com.example.DevTeamProject_Notes.user.UserService;
-import com.example.DevTeamProject_Notes.user.UserValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class AccountController {
     private final UserService userService;
-    private final UserValidation userValidation;
-
 
     @GetMapping("")
     public String beginning(@AuthenticationPrincipal CustomUserDetails loggedUser) {
@@ -43,15 +39,33 @@ public class AccountController {
                                BindingResult result,
                                Model model) {
 
+        userService.validateUser(user, result, this);
+
+        if(result.hasErrors()){
+            model.addAttribute("user", user);
+            return "auth/register";
+        }
+
+        userService.save(user);
+        return "redirect:/register?success";
+    }
+
+
+    // TODO delete if unnecessary
+
+    /*@PostMapping("/register/save")
+    public String registration(@Validated @ModelAttribute("user") User user,
+                               BindingResult result,
+                               Model model) {
+
         if (!result.hasErrors()) {
-            if (userValidation.validate(user, result, this))
-                return "auth/register";
+            String duplicateResult = userService.checkDuplicateUser(user, result, this);
+            if (duplicateResult != null) return duplicateResult;
         } else {
             return "auth/register";
         }
-        userService.save(user);
+
         model.addAttribute("user", user);
         return "redirect:/login";
-    }
-
+    }*/
 }

@@ -16,11 +16,11 @@ public class Note {
     private UUID id;
 
     @Column
-    @Size(min = 5, max = 100)
+    @Size(min = 5, max = 100, message = "Size must be between 5 and 100 characters")
     private String title;
 
     @Column
-    @Size(min = 5, max = 10000)
+    @Size(min = 5, max = 10000, message = "Size must be between 5 and 10000 characters")
     private String content;
 
     @Column
