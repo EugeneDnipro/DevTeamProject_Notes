@@ -18,11 +18,6 @@
     <div class="row">
 
         <div class="col-md-6 offset-md-3 content-card">
-            <div th:if="${param.success}">
-                <div class="alert alert-info">
-                    You have successfully registered in our app!
-                </div>
-            </div>
             <div class="card-big-shadow">
                 <div class="card card-form card-just-text" data-background="color" data-color="purple">
                     <div class="form-wrap">
@@ -33,7 +28,7 @@
                             <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Login</label>
-                                    <input class="form-control" id="login" name="login" placeholder="Enter your login" th:field="*{login}" type="text"/>
+                                    <input class="form-control" id="login" name="login" placeholder="Enter your login" th:field="*{login}" type="login"/>
                                     <p th:errors = "*{login}" class="text-danger" th:if="${#fields.hasErrors('login')}"></p>
                                 </div>
 
