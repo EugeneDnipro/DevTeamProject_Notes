@@ -18,11 +18,3 @@ CREATE TABLE notes (
 );
 
 CREATE INDEX idx_user_id ON notes (user_id);
-
-
-
-
-
-
-
-

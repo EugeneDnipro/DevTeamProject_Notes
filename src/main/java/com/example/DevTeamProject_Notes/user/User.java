@@ -2,6 +2,7 @@ package com.example.DevTeamProject_Notes.user;
 
 import com.example.DevTeamProject_Notes.note.Note;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import lombok.Data;
@@ -18,11 +19,12 @@ public class User {
     private Long id;
 
     @NaturalId
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 50, message = "Size must be between 5 and 50 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Login can contain only numbers and latin symbols")
     private String login;
 
     @Column
-    @Size(min = 8, max = 100)
+    @Size(min = 8, max = 100, message = "Size must be between 8 and 100 characters")
     private String password;
 
     @OneToMany(mappedBy = "user")

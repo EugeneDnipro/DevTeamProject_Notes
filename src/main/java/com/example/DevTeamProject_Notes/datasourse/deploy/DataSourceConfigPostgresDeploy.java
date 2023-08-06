@@ -37,7 +37,6 @@ public class DataSourceConfigPostgresDeploy {
         flyway.migrate();
         return flyway;
     }
-
 }
 
 

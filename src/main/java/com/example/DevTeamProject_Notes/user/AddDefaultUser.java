@@ -26,5 +26,4 @@ public class AddDefaultUser {
         adminUser.setRole(Role.ROLE_USER);
         userService.save(adminUser);
     }
-
 }

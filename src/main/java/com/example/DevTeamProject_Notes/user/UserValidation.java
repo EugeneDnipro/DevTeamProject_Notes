@@ -13,6 +13,11 @@ import java.util.regex.Pattern;
 @Component
 @RequiredArgsConstructor
 public class UserValidation {
+
+
+    //TODO delete class if unnecessary
+
+
     private final UserService userService;
     private Pattern pattern;
 
