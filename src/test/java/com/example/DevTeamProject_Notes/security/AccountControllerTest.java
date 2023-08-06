@@ -2,7 +2,7 @@ package com.example.DevTeamProject_Notes.security;
 
 import com.example.DevTeamProject_Notes.user.Role;
 import com.example.DevTeamProject_Notes.user.User;
-import com.example.DevTeamProject_Notes.user.UserValidation;
+import com.example.DevTeamProject_Notes.user.UserService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,7 +30,7 @@ class AccountControllerTest {
     @Autowired
     private WebApplicationContext context;
     @MockBean
-    private UserValidation userValidation;
+    private UserService userService;
 
     @BeforeEach
     public void setup() {
@@ -72,13 +73,12 @@ class AccountControllerTest {
     @WithMockCustomUser
     void registration() {
         User user = getUser();
-        when(userValidation.validate(any(User.class), any(BindingResult.class), any(AccountController.class)))
-                .thenReturn(true);
+        doNothing().when(userService)
+                .validateUser(any(User.class), any(BindingResult.class), any(AccountController.class));
         mvc.perform(post("/register/save")
                         .flashAttr("user", user))
-                .andExpect(status().isOk())
-                .andExpect(view().name("auth/register"))
-                .andExpect(model().attribute("user", user));
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/login"));
     }
 
     @Test
@@ -86,12 +86,14 @@ class AccountControllerTest {
     @WithMockCustomUser
     void registrationNotDuplicatedUser() {
         User user = getUser();
-        when(userValidation.validate(any(User.class), any(BindingResult.class), any(AccountController.class)))
-                .thenReturn(false);
+        user.setLogin("test");
+        doNothing().when(userService)
+                .validateUser(any(User.class), any(BindingResult.class), any(AccountController.class));
         mvc.perform(post("/register/save")
                         .flashAttr("user", user))
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/login"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("auth/register"))
+                .andExpect(model().attribute("user", user));
     }
 
     private static User getUser() {
