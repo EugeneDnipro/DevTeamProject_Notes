@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+
 @Profile("default")
 @Configuration
 public class DataSourceConfigH2 {
@@ -20,6 +21,7 @@ public class DataSourceConfigH2 {
         dataSource.setPassword("");
         return dataSource;
     }
+
     @Bean(initMethod = "migrate")
     public Flyway flyway() {
         Flyway flyway = Flyway.configure()

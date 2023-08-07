@@ -41,7 +41,7 @@ public class AccountController {
 
         userService.validateUser(user, result, this);
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             model.addAttribute("user", user);
             return "auth/register";
         }
@@ -49,23 +49,4 @@ public class AccountController {
         userService.save(user);
         return "redirect:/login";
     }
-
-
-    // TODO delete if unnecessary
-
-    /*@PostMapping("/register/save")
-    public String registration(@Validated @ModelAttribute("user") User user,
-                               BindingResult result,
-                               Model model) {
-
-        if (!result.hasErrors()) {
-            String duplicateResult = userService.checkDuplicateUser(user, result, this);
-            if (duplicateResult != null) return duplicateResult;
-        } else {
-            return "auth/register";
-        }
-
-        model.addAttribute("user", user);
-        return "redirect:/login";
-    }*/
 }

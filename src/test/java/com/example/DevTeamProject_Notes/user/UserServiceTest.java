@@ -36,15 +36,15 @@ class UserServiceTest {
         assertEquals(user.getPassword(), "hash");
     }
 
-    @Test
-    void isUserDuplicated() {
-        User user = getUser();
-        when(userRepository.existsByLogin(user.getLogin().toLowerCase())).thenReturn(true);
-
-        boolean checked = userService.isUserDuplicated(user);
-
-        assertTrue(checked);
-    }
+//    @Test
+//    void isUserDuplicated() {
+//        User user = getUser();
+//        when(userRepository.existsByLogin(user.getLogin().toLowerCase())).thenReturn(true);
+//
+//        boolean checked = userService.isUserDuplicated(user);
+//
+//        assertTrue(checked);
+//    }
 
     private static User getUser() {
         User user = new User();

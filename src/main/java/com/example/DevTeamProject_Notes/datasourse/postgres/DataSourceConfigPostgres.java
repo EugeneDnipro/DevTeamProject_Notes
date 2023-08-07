@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+
 @Profile("prod")
 @Configuration
 public class DataSourceConfigPostgres {
@@ -21,6 +22,7 @@ public class DataSourceConfigPostgres {
     private String dbUsername;
     @Value("${DB_PASSWORD}")
     private String dbPassword;
+
     @Bean
 
     public DataSource dataSourceProd() {

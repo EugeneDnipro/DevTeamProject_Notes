@@ -16,5 +16,5 @@ CREATE TABLE notes (
   PRIMARY KEY (id),
   CONSTRAINT FKechaouoa6kus6k1dpix1u91c FOREIGN KEY (user_id) REFERENCES users (id)
 );
-CREATE INDEX FKechaouoa6kus6k1dpix1u91c ON notes (user_id);
 
+CREATE INDEX FKechaouoa6kus6k1dpix1u91c ON notes (user_id);

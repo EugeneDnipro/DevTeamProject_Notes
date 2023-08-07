@@ -15,7 +15,7 @@ public class UserService {
 
     public void save(User user) {
         String loginInLowerCase = user.getLogin().toLowerCase();
-        if (userRepository.existsByLogin(loginInLowerCase)){
+        if (userRepository.existsByLogin(loginInLowerCase)) {
             throw new DuplicateKeyException("User with this login already exists");
         }
         user.setLogin(loginInLowerCase);
@@ -24,13 +24,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    //TODO delete method if unnecessary
-    boolean isUserDuplicated(User user) {
-        return userRepository.existsByLogin(user.getLogin().toLowerCase());
-    }
-
     public void validateUser(User user, BindingResult result, AccountController accountController) {
-        if(userRepository.existsByLogin(user.getLogin().toLowerCase())){
+        if (userRepository.existsByLogin(user.getLogin().toLowerCase())) {
             result.rejectValue("login", null,
                     "User with this login already exists");
         }
