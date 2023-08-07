@@ -1,5 +1,6 @@
 package com.example.DevTeamProject_Notes.user;
 
+import com.example.DevTeamProject_Notes.security.AccountController;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +37,17 @@ class UserServiceTest {
         assertEquals(user.getPassword(), "hash");
     }
 
-//    @Test
-//    void isUserDuplicated() {
-//        User user = getUser();
-//        when(userRepository.existsByLogin(user.getLogin().toLowerCase())).thenReturn(true);
-//
-//        boolean checked = userService.isUserDuplicated(user);
-//
-//        assertTrue(checked);
-//    }
+    @Test
+    void validateUser() {
+        User user = getUser();
+        String login = user.getLogin().toLowerCase();
+        when(userRepository.existsByLogin(login)).thenReturn(true);
+        userService.validateUser(user, result, null);
+
+        verify(userRepository, times(1)).existsByLogin(login);
+        verify(result, times(1)).rejectValue("login",
+                null, "User with this login already exists");
+    }
 
     private static User getUser() {
         User user = new User();
