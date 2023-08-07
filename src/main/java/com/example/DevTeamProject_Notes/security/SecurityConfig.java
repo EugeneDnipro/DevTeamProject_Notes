@@ -18,11 +18,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     @Bean
     UserDetailsService userDetailsService() {
-        return  new CustomUserDetailsService();
+        return new CustomUserDetailsService();
     }
 
     @Bean
-    public static BCryptPasswordEncoder passwordEncoder(){
+    public static BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -38,14 +38,14 @@ public class SecurityConfig {
         http.csrf(Customizer.withDefaults())
                 .authorizeHttpRequests((request) ->
                         request.requestMatchers("/register/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/note/share/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/note/share/**").permitAll()
                                 .requestMatchers("/note/**").authenticated()
                                 .requestMatchers("/note/list/page/**").authenticated()
-                                .requestMatchers(HttpMethod.GET,"/error/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/error/**").permitAll()
                                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                                 .requestMatchers("/").authenticated()
-                                .requestMatchers(HttpMethod.GET,"/about").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/contact-us").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/about").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/contact-us").permitAll()
                 )
                 .csrf(CsrfConfigurer::disable)
                 .formLogin(

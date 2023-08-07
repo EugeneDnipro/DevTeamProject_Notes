@@ -18,6 +18,7 @@ public class DataSourceConfigPostgresDeploy {
     private String dbUsername;
     @Value("${spring.datasource.password}")
     private String dbPassword;
+
     @Bean
 
     public DataSource dataSourceProd() {

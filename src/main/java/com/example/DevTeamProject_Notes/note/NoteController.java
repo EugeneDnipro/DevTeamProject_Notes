@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +31,7 @@ public class NoteController {
     public String findPaginated(@AuthenticationPrincipal CustomUserDetails loggedUser,
                                 @PathVariable("pageNumber") int pageNumber, Model model) {
 
-        int pageSize = 5;
+        int pageSize = 6;
 
         Page<Note> page = noteService.findPaginated(pageNumber, pageSize, loggedUser.getId());
         List<Note> noteList = page.getContent();
@@ -118,7 +117,7 @@ public class NoteController {
         model.addAttribute("note", note);
         if (request.isSecure()) {
             fullUrl = request.getRequestURL().toString().replaceFirst("https:", "http:");
-        }else{
+        } else {
             fullUrl = request.getRequestURL().toString();
         }
         noteService.copyLink(fullUrl);

@@ -46,7 +46,7 @@ class NoteControllerTest {
     @SneakyThrows
     @WithMockCustomUser
     void noteList() {
-        when(noteService.findPaginated(1, 5, 100L))
+        when(noteService.findPaginated(1, 6, 100L))
                 .thenReturn(new PageImpl<>(List.of(getNote(100L))));
 
         mvc.perform(get("/note/list"))
@@ -68,7 +68,7 @@ class NoteControllerTest {
     @WithMockCustomUser
     void findPaginated() {
         PageImpl<Note> page = new PageImpl<>(List.of(getNote(100L)));
-        when(noteService.findPaginated(3, 5, 100L))
+        when(noteService.findPaginated(3, 6, 100L))
                 .thenReturn(page);
 
         mvc.perform(get("/note/list/page/3"))
